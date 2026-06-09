@@ -615,7 +615,7 @@ body::after{
 @media(max-width:860px){
   .container{width:min(100% - 28px,1180px);padding-top:14px}
   .hero{grid-template-columns:1fr;min-height:auto;padding-top:48px}
-  .hero-visual{max-height:420px}
+  .hero-visual{max-height:520px}
   .foundation-head{grid-template-columns:1fr}
   .os-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -623,30 +623,146 @@ body::after{
   .stat:nth-child(-n+2){border-bottom:1px solid var(--border)}
   .cards{grid-template-columns:1fr}
 }
+
+/* iPhone 12+ (390px) and similar mobile devices */
 @media(max-width:520px){
-  .container{width:100%;padding:0 14px 40px}
-  .hero{padding-top:40px}
-  .hero h1{font-size:clamp(2.8rem,14vw,4.2rem)}
-  .hero-visual{max-height:360px}
-  .chip{padding:10px 14px;min-width:110px;border-radius:10px}
-  .chip-label{font-size:1rem}
-  .chip-num{font-size:.42rem}
-  .hero-center{width:120px;height:120px}
-  .hero-center strong{font-size:1.8rem}
-  .agent-bar{grid-template-columns:1fr 1fr;bottom:12px;left:12px;right:12px}
-  .agent-bar-title{grid-column:1/-1;text-align:center;padding:4px}
-  .agent-mod{font-size:.4rem;padding:6px 4px}
-  .stats{grid-template-columns:1fr}
-  .stat{border-right:0;border-bottom:1px solid var(--border)}
-  .stat:last-child{border-bottom:0}
-  .legend{position:static}
-  .foundation{margin-top:42px;padding:24px 16px;border-radius:12px}
-  .os-grid{grid-template-columns:1fr}
-  .layer{margin-top:48px}
-  .card-header{padding:18px 16px}
-  .task{padding:10px 16px}
+  .container{width:100%;padding:0 16px 40px}
+
+  /* Hero text */
+  .hero{padding-top:32px;padding-bottom:24px;gap:24px;border-bottom:none}
+  .hero-badge{font-size:.58rem;margin-bottom:14px}
+  .hero h1{font-size:2.6rem;line-height:.9;margin-bottom:16px}
+  .hero p{font-size:.92rem;line-height:1.6}
+  .hero-author{margin-top:18px;font-size:.58rem}
+
+  /* Hero visual - taller to fit all chips + agent bar */
+  .hero-visual{
+    max-height:none;
+    aspect-ratio:auto;
+    min-height:540px;
+    border-radius:14px;
+  }
+
+  /* Center circle */
+  .hero-center{
+    width:110px;
+    height:110px;
+    top:38%;
+  }
+  .hero-center strong{font-size:1.6rem}
+  .hero-center span{font-size:.36rem;margin-top:4px}
+
+  /* Chips - reposition for mobile */
+  .chip{
+    padding:10px 14px 12px;
+    min-width:auto;
+    border-radius:10px;
+  }
+  .chip-label{font-size:.95rem}
+  .chip-num{font-size:.44rem;margin-bottom:3px}
+
+  .chip-1{top:10px;left:10px;right:auto}
+  .chip-2{top:10px;right:10px;left:auto}
+  .chip-3{top:46%;right:10px;left:auto;transform:translateY(-50%)}
+  .chip-4{bottom:170px;left:10px;right:auto}
+  .chip-5{bottom:170px;left:auto;right:10px}
+
+  /* Agent bar - 2x2 grid on mobile */
+  .agent-bar{
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+    bottom:12px;
+    left:12px;
+    right:12px;
+    padding:10px 12px;
+    border-radius:12px;
+  }
+  .agent-bar-title{
+    grid-column:1/-1;
+    text-align:center;
+    padding:2px 0 4px;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .agent-bar-title small{margin-bottom:0}
+  .agent-bar-title span{font-size:1rem}
+  .agent-mod{font-size:.44rem;padding:8px 4px;min-height:32px}
+
+  /* SVG rings scale down */
+  .orbital-svg{opacity:.7}
+
+  /* Stats */
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+    border-radius:12px;
+    border:1px solid var(--border);
+    margin-top:20px;
+    overflow:hidden;
+  }
+  .stat{
+    padding:20px 16px;
+    border-right:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(3){border-bottom:0}
+  .stat:nth-child(4){border-right:0;border-bottom:0}
+  .stat-val{font-size:2rem}
+  .stat-label{font-size:.5rem;margin-top:6px}
+
+  /* Legend */
+  .legend{
+    position:static;
+    flex-direction:column;
+    gap:8px;
+    padding:14px 0;
+    font-size:.54rem;
+  }
+
+  /* Foundation */
+  .foundation{
+    margin-top:36px;
+    padding:24px 18px;
+    border-radius:14px;
+  }
+  .foundation h2{font-size:1.8rem}
+  .foundation-copy{font-size:.88rem}
+  .os-grid{grid-template-columns:1fr;gap:10px}
+  .os-card{padding:18px}
+  .os-card small{font-size:.68rem;margin-bottom:14px}
+  .os-card h3{font-size:1.4rem}
+  .os-card p{font-size:.85rem}
+
+  /* Layers */
+  .layer{margin-top:40px}
+  .layer-label{font-size:.56rem;margin-bottom:14px}
+
+  /* Cards */
+  .card{border-radius:12px}
+  .card-header{padding:16px}
+  .card-icon{width:38px;height:38px;border-radius:10px}
+  .card-icon svg{width:18px;height:18px}
+  .card-title{font-size:1.25rem}
+  .card-meta{font-size:.5rem;margin-top:4px}
+  .card-chevron{width:26px;height:26px;font-size:.8rem}
+
+  /* Tasks */
+  .task{padding:10px 16px;font-size:.82rem}
+  .tag{font-size:.44rem;padding:2px 6px}
+
+  /* Playbook */
   .playbook{padding:16px}
-  .playbook-row{grid-template-columns:1fr;gap:4px}
+  .playbook-title{font-size:.54rem;margin-bottom:10px}
+  .playbook-row{grid-template-columns:1fr;gap:3px;padding:8px 0}
+  .playbook-label{font-size:.5rem}
+  .playbook-val{font-size:.78rem}
+
+  /* Footer */
+  .footer{margin-top:48px;padding:36px 12px 28px}
+  .footer p{font-size:.85rem}
+  .cta-btn{font-size:.78rem;min-height:40px;padding:0 20px;border-radius:8px}
 }
 </style>
 </head>
