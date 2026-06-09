@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f4f0e8;
+  --card:#fffdf8;
+  --text:#1a2620;
+  --muted:#6d746f;
+  --ai-text:#19746f;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",Arial,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+}
+
+body{
+  width:1200px;
+  height:1200px;
+  overflow:hidden;
+  background:var(--bg);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+
+body::before{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(rgba(26,38,32,.032) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(26,38,32,.032) 1px,transparent 1px);
+  background-size:60px 60px;
+  content:"";
+}
+
+body::after{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 45% at 20% 15%,rgba(25,116,111,.1),transparent),
+    radial-gradient(ellipse 45% 40% at 80% 20%,rgba(184,134,36,.08),transparent),
+    radial-gradient(ellipse 50% 40% at 60% 85%,rgba(169,81,56,.07),transparent),
+    radial-gradient(ellipse 40% 35% at 15% 80%,rgba(83,74,183,.06),transparent);
+  content:"";
+}
+
+.frame{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  padding:36px 44px 32px;
+}
+
+/* Compact header */
+.header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  margin-bottom:24px;
+}
+.header-left{}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--ai-text);
+  font-family:var(--mono);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.badge::before{
+  width:20px;height:1.5px;
+  background:currentColor;
+  content:"";
+}
+
+h1{
+  font-family:var(--serif);
+  font-size:52px;
+  font-weight:400;
+  line-height:.9;
+  color:var(--text);
+  letter-spacing:-.01em;
+}
+
+/* Stats inline on the right */
+.header-stats{
+  display:flex;
+  gap:28px;
+  padding-bottom:6px;
+}
+.hs{text-align:center}
+.hs-val{
+  font-family:var(--serif);
+  font-size:36px;
+  line-height:1;
+  color:var(--text);
+}
+.hs-label{
+  margin-top:4px;
+  color:var(--muted);
+  font-family:var(--mono);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+/* Orbital visual - takes up most space */
+.orbital{
+  flex:1;
+  position:relative;
+  border:1px solid rgba(26,38,32,.1);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 24px 64px rgba(26,38,32,.07);
+}
+
+.orbital-bg{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 46%,rgba(255,253,248,.97) 0%,rgba(255,253,248,.84) 14%,transparent 36%),
+    linear-gradient(rgba(26,38,32,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(26,38,32,.025) 1px,transparent 1px),
+    conic-gradient(from -30deg at 50% 46%,
+      rgba(25,116,111,.16),
+      rgba(184,134,36,.12),
+      rgba(169,81,56,.1),
+      rgba(83,74,183,.08),
+      rgba(25,116,111,.16));
+  background-size:100%,48px 48px,48px 48px,100%;
+}
+
+.orbital svg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+
+/* Center circle */
+.center{
+  position:absolute;
+  top:44%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:190px;
+  height:190px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:rgba(255,253,248,.95);
+  border:1px solid rgba(26,38,32,.1);
+  box-shadow:0 16px 48px rgba(26,38,32,.08);
+  text-align:center;
+}
+.center strong{
+  display:block;
+  font-family:var(--serif);
+  font-size:3.2rem;
+  font-weight:400;
+  line-height:.88;
+  color:var(--text);
+}
+.center span{
+  display:block;
+  margin-top:8px;
+  color:var(--muted);
+  font-family:var(--mono);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+/* Chips - larger text, tighter to orbital */
+.chip{
+  position:absolute;
+  padding:18px 24px 20px;
+  border:1px solid rgba(26,38,32,.1);
+  border-radius:14px;
+  background:rgba(255,253,248,.93);
+  box-shadow:0 8px 28px rgba(26,38,32,.06);
+  backdrop-filter:blur(12px);
+}
+.chip-num{
+  display:block;
+  margin-bottom:5px;
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.chip-label{
+  display:block;
+  font-family:var(--serif);
+  font-size:28px;
+  line-height:1;
+  color:var(--text);
+}
+
+.c1{top:24px;left:32px}
+.c2{top:24px;right:32px}
+.c3{top:40%;right:20px}
+.c4{bottom:110px;left:32px}
+.c5{bottom:110px;right:140px}
+
+/* Agent bar */
+.agent{
+  position:absolute;
+  bottom:20px;
+  left:20px;
+  right:20px;
+  display:grid;
+  grid-template-columns:1.1fr repeat(4,1fr);
+  gap:8px;
+  padding:14px 16px;
+  border-radius:14px;
+  background:rgba(26,38,32,.88);
+  backdrop-filter:blur(12px);
+  box-shadow:0 12px 36px rgba(26,38,32,.12);
+}
+.agent-title{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:0 10px;
+  color:var(--card);
+}
+.agent-title small{
+  display:block;
+  margin-bottom:3px;
+  color:rgba(220,238,237,.7);
+  font-family:var(--mono);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+.agent-title span{
+  font-family:var(--serif);
+  font-size:26px;
+  line-height:1;
+}
+.mod{
+  display:grid;
+  place-items:center;
+  padding:12px 6px;
+  border:1px solid rgba(255,253,248,.1);
+  border-radius:10px;
+  color:rgba(255,253,248,.6);
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+/* Bottom bar: author + subtitle */
+.bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:20px;
+}
+.author{
+  color:var(--muted);
+  font-family:var(--mono);
+  font-size:15px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.author strong{color:var(--text);font-weight:700}
+
+.tagline{
+  color:#3a4840;
+  font-size:16px;
+  font-family:var(--sans);
+  font-weight:500;
+  max-width:540px;
+  text-align:right;
+  line-height:1.4;
+}
+</style>
+</head>
+<body>
+
+<div class="frame">
+  <!-- Compact header: title left, stats right -->
+  <div class="header">
+    <div class="header-left">
+      <div class="badge">The 1000cr D2C playbook</div>
+      <h1>The operating map for<br>lean D2C teams</h1>
+    </div>
+    <div class="header-stats">
+      <div class="hs"><div class="hs-val">12</div><div class="hs-label">Functions</div></div>
+      <div class="hs"><div class="hs-val">96</div><div class="hs-label">Tasks</div></div>
+      <div class="hs"><div class="hs-val">58</div><div class="hs-label">AI-automatable</div></div>
+    </div>
+  </div>
+
+  <!-- Framework visual - dominant element -->
+  <div class="orbital">
+    <div class="orbital-bg"></div>
+
+    <svg viewBox="0 0 1120 840" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <defs>
+        <linearGradient id="r1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="rgba(25,116,111,.16)"/>
+          <stop offset="50%" stop-color="rgba(184,134,36,.12)"/>
+          <stop offset="100%" stop-color="rgba(169,81,56,.1)"/>
+        </linearGradient>
+        <linearGradient id="r2" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(83,74,183,.1)"/>
+          <stop offset="50%" stop-color="rgba(25,116,111,.08)"/>
+          <stop offset="100%" stop-color="rgba(184,134,36,.06)"/>
+        </linearGradient>
+      </defs>
+      <circle cx="560" cy="370" r="200" fill="none" stroke="url(#r1)" stroke-width="1.2"/>
+      <circle cx="560" cy="370" r="140" fill="none" stroke="url(#r2)" stroke-width=".9"/>
+      <circle cx="560" cy="370" r="260" fill="none" stroke="rgba(26,38,32,.05)" stroke-width=".7" stroke-dasharray="3 7"/>
+      <circle cx="400" cy="210" r="4" fill="rgba(25,116,111,.2)"/>
+      <circle cx="750" cy="240" r="4" fill="rgba(184,134,36,.2)"/>
+      <circle cx="780" cy="460" r="4" fill="rgba(184,134,36,.15)"/>
+      <circle cx="410" cy="540" r="4" fill="rgba(83,74,183,.15)"/>
+      <circle cx="660" cy="580" r="4" fill="rgba(169,81,56,.15)"/>
+    </svg>
+
+    <div class="center">
+      <div>
+        <strong>1000cr</strong>
+        <span>D2C brand system</span>
+      </div>
+    </div>
+
+    <div class="chip c1"><span class="chip-num" style="color:#19746f">01</span><span class="chip-label">Build the product</span></div>
+    <div class="chip c2"><span class="chip-num" style="color:#2d63b8">02</span><span class="chip-label">Get customers</span></div>
+    <div class="chip c3"><span class="chip-num" style="color:#b88624">03</span><span class="chip-label">Sell everywhere</span></div>
+    <div class="chip c4"><span class="chip-num" style="color:#6950a1">04</span><span class="chip-label">Keep customers</span></div>
+    <div class="chip c5"><span class="chip-num" style="color:#4e7c35">05</span><span class="chip-label">Run the company</span></div>
+
+    <div class="agent">
+      <div class="agent-title"><small>Layer 0</small><span>Agent OS</span></div>
+      <div class="mod">RAG</div>
+      <div class="mod">Memory</div>
+      <div class="mod">Automation</div>
+      <div class="mod">Orchestration</div>
+    </div>
+  </div>
+
+  <!-- Bottom: author + tagline -->
+  <div class="bottom">
+    <div class="author">By <strong>Abhijeet Mittal</strong> &middot; June 2026</div>
+    <div class="tagline">Every function a 5-10 person AI-native team needs to build a 1000cr brand.</div>
+  </div>
+</div>
+
+</body>
+</html>
